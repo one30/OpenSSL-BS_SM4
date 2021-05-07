@@ -186,6 +186,9 @@ int SM4_set_key(const uint8_t *key, SM4_KEY *ks)
 
 void SM4_encrypt(const uint8_t *in, uint8_t *out, const SM4_KEY *ks)
 {
+    // int size = sizeof(in);
+    // printf("size=%d",size);
+
     uint32_t B0 = load_u32_be(in, 0);
     uint32_t B1 = load_u32_be(in, 1);
     uint32_t B2 = load_u32_be(in, 2);

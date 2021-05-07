@@ -93,8 +93,8 @@ CROSS_COMPILE=
 CC=$(CROSS_COMPILE)gcc
 CXX=$(CROSS_COMPILE)g++
 CPPFLAGS=
-CFLAGS=-Wall -O0 -g -mavx2
-CXXFLAGS=-Wall -O0 -g -mavx2
+CFLAGS=-Wall -O2 -g -mavx2
+CXXFLAGS=-Wall -O2 -g -mavx2
 LDFLAGS= 
 EX_LIBS= 
 
@@ -15288,7 +15288,7 @@ crypto/evp/e_sm4.o: crypto/evp/e_sm4.c include/internal/cryptlib.h \
  include/openssl/asn1.h include/openssl/asn1err.h include/openssl/bn.h \
  include/openssl/bnerr.h include/openssl/objectserr.h \
  include/openssl/modes.h include/crypto/sm4.h include/crypto/evp.h \
- include/internal/refcount.h
+ include/internal/refcount.h crypto/modes/modes_local.h
 crypto/evp/e_sm4_bs.o: crypto/evp/e_sm4_bs.c include/internal/cryptlib.h \
  include/openssl/crypto.h include/openssl/e_os2.h \
  include/openssl/opensslconf.h include/openssl/opensslv.h \
@@ -15302,7 +15302,8 @@ crypto/evp/e_sm4_bs.o: crypto/evp/e_sm4_bs.c include/internal/cryptlib.h \
  include/openssl/asn1.h include/openssl/asn1err.h include/openssl/bn.h \
  include/openssl/bnerr.h include/openssl/objectserr.h \
  include/crypto/sm4_bs.h include/crypto/sm4.h include/crypto/evp.h \
- include/internal/refcount.h crypto/evp/evp_local.h
+ include/internal/refcount.h crypto/evp/evp_local.h \
+ crypto/modes/modes_local.h include/openssl/modes.h
 crypto/evp/e_xcbc_d.o: crypto/evp/e_xcbc_d.c include/internal/cryptlib.h \
  include/openssl/crypto.h include/openssl/e_os2.h \
  include/openssl/opensslconf.h include/openssl/opensslv.h \

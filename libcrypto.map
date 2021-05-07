@@ -4458,7 +4458,10 @@ OPENSSL_1_1_1h {
 
 OPENSSL_1_1_1i {
     global:
+        EVP_sm4_bs256_ctr;
         EVP_sm4_bs256_ecb;
+        EVP_sm4_bs256_gcm;
+        EVP_sm4_gcm;
     local: *;
 } OPENSSL_1_1_1h;
 

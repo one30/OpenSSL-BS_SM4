@@ -1193,3 +1193,6 @@ magma_mac		1192
 hmacWithSHA512_224		1193
 hmacWithSHA512_256		1194
 sm4_bs256_ecb		1195
+sm4_bs256_ctr		1196
+sm4_bs256_gcm		1197
+sm4_gcm		1198

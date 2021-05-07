@@ -4767,10 +4767,25 @@
 #define NID_sm4_ctr             1139
 #define OBJ_sm4_ctr             OBJ_sm_scheme,104L,7L
 
+#define SN_sm4_gcm              "SM4-GCM"
+#define LN_sm4_gcm              "sm4-gcm"
+#define NID_sm4_gcm             1198
+#define OBJ_sm4_gcm             OBJ_sm_scheme,104L,8L
+
 #define SN_sm4_bs256_ecb                "SM4-BS256-ECB"
 #define LN_sm4_bs256_ecb                "sm4-bs256-ecb"
 #define NID_sm4_bs256_ecb               1195
-#define OBJ_sm4_bs256_ecb               OBJ_sm_scheme,104L,8L
+#define OBJ_sm4_bs256_ecb               OBJ_sm_scheme,104L,9L
+
+#define SN_sm4_bs256_ctr                "SM4-BS256-CTR"
+#define LN_sm4_bs256_ctr                "sm4-bs256-ctr"
+#define NID_sm4_bs256_ctr               1196
+#define OBJ_sm4_bs256_ctr               OBJ_sm_scheme,104L,10L
+
+#define SN_sm4_bs256_gcm                "SM4-BS256-GCM"
+#define LN_sm4_bs256_gcm                "sm4-bs256-gcm"
+#define NID_sm4_bs256_gcm               1197
+#define OBJ_sm4_bs256_gcm               OBJ_sm_scheme,104L,11L
 
 #define SN_hmac         "HMAC"
 #define LN_hmac         "hmac"

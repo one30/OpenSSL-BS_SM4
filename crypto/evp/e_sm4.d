@@ -11,4 +11,4 @@ crypto/evp/e_sm4.o: crypto/evp/e_sm4.c include/internal/cryptlib.h \
  include/openssl/asn1.h include/openssl/asn1err.h include/openssl/bn.h \
  include/openssl/bnerr.h include/openssl/objectserr.h \
  include/openssl/modes.h include/crypto/sm4.h include/crypto/evp.h \
- include/internal/refcount.h
+ include/internal/refcount.h crypto/modes/modes_local.h

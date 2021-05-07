@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "sm4_bs.h": "c",
+        "*.tcc": "cpp",
+        "complex": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "string.h": "c"
+    }
+}

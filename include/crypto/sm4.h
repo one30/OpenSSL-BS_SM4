@@ -1,4 +1,12 @@
 /*
+ * @Descripttion : 
+ * @Version      : 
+ * @Autor        : one30: one30@m.scnu.edu.cn(email)
+ * @Date         : 2021-01-22 10:34:00
+ * @LastEditTime : 2021-04-29 17:22:37
+ * @FilePath     : /include/crypto/sm4.h
+ */
+/*
  * Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright 2017 Ribose Inc. All Rights Reserved.
  *
@@ -13,6 +21,7 @@
 
 # include <openssl/opensslconf.h>
 # include <openssl/e_os2.h>
+# include <stdio.h>
 
 # ifdef OPENSSL_NO_SM4
 #  error SM4 is disabled.

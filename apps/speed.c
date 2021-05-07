@@ -1383,7 +1383,7 @@ static int run_benchmark(int async_jobs,
     return error ? -1 : total_op_count;
 }
 
-int speed_main(int argc, char **argv)
+int kexianspeed_main(int argc, char **argv)
 {
     ENGINE *e = NULL;
     loopargs_t *loopargs = NULL;

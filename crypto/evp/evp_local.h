@@ -1,4 +1,12 @@
 /*
+ * @Descripttion : 
+ * @Version      : 
+ * @Autor        : one30: one30@m.scnu.edu.cn(email)
+ * @Date         : 2021-01-22 10:33:59
+ * @LastEditTime : 2021-05-04 02:35:59
+ * @FilePath     : /crypto/evp/evp_local.h
+ */
+/*
  * Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the OpenSSL license (the "License").  You may not use
@@ -39,6 +47,7 @@ struct evp_cipher_ctx_st {
     int final_used;
     int block_mask;
     unsigned char final[EVP_MAX_BLOCK_LENGTH]; /* possible final block */
+    uint8_t T[16][256][16];
 } /* EVP_CIPHER_CTX */ ;
 
 int PKCS5_v2_PBKDF2_keyivgen(EVP_CIPHER_CTX *ctx, const char *pass,

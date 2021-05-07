@@ -85,19 +85,15 @@ void openssl_add_all_ciphers_int(void)
     EVP_add_cipher(EVP_sm4_cfb());
     EVP_add_cipher(EVP_sm4_ofb());
     EVP_add_cipher(EVP_sm4_ctr());
+    EVP_add_cipher(EVP_sm4_gcm());
     EVP_add_cipher_alias(SN_sm4_cbc, "SM4");
     EVP_add_cipher_alias(SN_sm4_cbc, "sm4");
 #endif
 
 #ifndef OPENSSL_NO_BS_SM4
     EVP_add_cipher(EVP_sm4_bs256_ecb());
-    
-    // EVP_add_cipher(EVP_sm4_cbc());
-    // EVP_add_cipher(EVP_sm4_cfb());
-    // EVP_add_cipher(EVP_sm4_ofb());
-    // EVP_add_cipher(EVP_sm4_ctr());
-    // EVP_add_cipher_alias(SN_sm4_cbc, "SM4");
-    // EVP_add_cipher_alias(SN_sm4_cbc, "sm4");
+    EVP_add_cipher(EVP_sm4_bs256_ctr());
+    EVP_add_cipher(EVP_sm4_bs256_gcm());
 #endif
 
 #ifndef OPENSSL_NO_RC2

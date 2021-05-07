@@ -1574,7 +1574,9 @@ int CRYPTO_gcm128_encrypt_ctr32(GCM128_CONTEXT *ctx,
 #  endif
 # endif
     if ((i = (len & (size_t)-16))) {
-        size_t j = i / 16;
+/*          size_t j = i / 16; 
+        // because my ctr encrypt need byte_size not  block_size, so don't need devide 16  */
+        size_t j = i;
 
         (*stream) (in, out, j, key, ctx->Yi.c);
         ctr += (unsigned int)j;

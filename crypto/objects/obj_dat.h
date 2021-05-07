@@ -10,7 +10,7 @@
  */
 
 /* Serialized OID's */
-static const unsigned char so[7770] = {
+static const unsigned char so[7794] = {
     0x2A,0x86,0x48,0x86,0xF7,0x0D,                 /* [    0] OBJ_rsadsi */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,            /* [    6] OBJ_pkcs */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x02,0x02,       /* [   13] OBJ_md2 */
@@ -1076,10 +1076,13 @@ static const unsigned char so[7770] = {
     0x2A,0x85,0x03,0x07,0x01,0x02,0x01,0x01,0x04,  /* [ 7736] OBJ_id_tc26_gost_3410_2012_256_paramSetD */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x02,0x0C,       /* [ 7745] OBJ_hmacWithSHA512_224 */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x02,0x0D,       /* [ 7753] OBJ_hmacWithSHA512_256 */
-    0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x08,       /* [ 7761] OBJ_sm4_bs256_ecb */
+    0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x09,       /* [ 7761] OBJ_sm4_bs256_ecb */
+    0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x0A,       /* [ 7769] OBJ_sm4_bs256_ctr */
+    0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x0B,       /* [ 7777] OBJ_sm4_bs256_gcm */
+    0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x08,       /* [ 7785] OBJ_sm4_gcm */
 };
 
-#define NUM_NID 1196
+#define NUM_NID 1199
 static const ASN1_OBJECT nid_objs[NUM_NID] = {
     {"UNDEF", "undefined", NID_undef},
     {"rsadsi", "RSA Data Security, Inc.", NID_rsadsi, 6, &so[0]},
@@ -2277,9 +2280,12 @@ static const ASN1_OBJECT nid_objs[NUM_NID] = {
     {"hmacWithSHA512-224", "hmacWithSHA512-224", NID_hmacWithSHA512_224, 8, &so[7745]},
     {"hmacWithSHA512-256", "hmacWithSHA512-256", NID_hmacWithSHA512_256, 8, &so[7753]},
     {"SM4-BS256-ECB", "sm4-bs256-ecb", NID_sm4_bs256_ecb, 8, &so[7761]},
+    {"SM4-BS256-CTR", "sm4-bs256-ctr", NID_sm4_bs256_ctr, 8, &so[7769]},
+    {"SM4-BS256-GCM", "sm4-bs256-gcm", NID_sm4_bs256_gcm, 8, &so[7777]},
+    {"SM4-GCM", "sm4-gcm", NID_sm4_gcm, 8, &so[7785]},
 };
 
-#define NUM_SN 1187
+#define NUM_SN 1190
 static const unsigned int sn_objs[NUM_SN] = {
      364,    /* "AD_DVCS" */
      419,    /* "AES-128-CBC" */
@@ -2546,13 +2552,16 @@ static const unsigned int sn_objs[NUM_SN] = {
     1101,    /* "SHAKE256" */
     1172,    /* "SM2" */
     1143,    /* "SM3" */
+    1196,    /* "SM4-BS256-CTR" */
     1195,    /* "SM4-BS256-ECB" */
+    1197,    /* "SM4-BS256-GCM" */
     1134,    /* "SM4-CBC" */
     1137,    /* "SM4-CFB" */
     1136,    /* "SM4-CFB1" */
     1138,    /* "SM4-CFB8" */
     1139,    /* "SM4-CTR" */
     1133,    /* "SM4-ECB" */
+    1198,    /* "SM4-GCM" */
     1135,    /* "SM4-OFB" */
      188,    /* "SMIME" */
      167,    /* "SMIME-CAPS" */
@@ -3470,7 +3479,7 @@ static const unsigned int sn_objs[NUM_SN] = {
     1093,    /* "x509ExtAdmission" */
 };
 
-#define NUM_LN 1187
+#define NUM_LN 1190
 static const unsigned int ln_objs[NUM_LN] = {
      363,    /* "AD Time Stamping" */
      405,    /* "ANSI X9.62" */
@@ -4605,13 +4614,16 @@ static const unsigned int ln_objs[NUM_LN] = {
     1172,    /* "sm2" */
     1143,    /* "sm3" */
     1144,    /* "sm3WithRSAEncryption" */
+    1196,    /* "sm4-bs256-ctr" */
     1195,    /* "sm4-bs256-ecb" */
+    1197,    /* "sm4-bs256-gcm" */
     1134,    /* "sm4-cbc" */
     1137,    /* "sm4-cfb" */
     1136,    /* "sm4-cfb1" */
     1138,    /* "sm4-cfb8" */
     1139,    /* "sm4-ctr" */
     1133,    /* "sm4-ecb" */
+    1198,    /* "sm4-gcm" */
     1135,    /* "sm4-ofb" */
       16,    /* "stateOrProvinceName" */
      660,    /* "streetAddress" */
@@ -4661,7 +4673,7 @@ static const unsigned int ln_objs[NUM_LN] = {
      125,    /* "zlib compression" */
 };
 
-#define NUM_OBJ 1072
+#define NUM_OBJ 1075
 static const unsigned int obj_objs[NUM_OBJ] = {
        0,    /* OBJ_undef                        0 */
      181,    /* OBJ_iso                          1 */
@@ -5128,7 +5140,10 @@ static const unsigned int obj_objs[NUM_OBJ] = {
     1136,    /* OBJ_sm4_cfb1                     1 2 156 10197 1 104 5 */
     1138,    /* OBJ_sm4_cfb8                     1 2 156 10197 1 104 6 */
     1139,    /* OBJ_sm4_ctr                      1 2 156 10197 1 104 7 */
-    1195,    /* OBJ_sm4_bs256_ecb                1 2 156 10197 1 104 8 */
+    1198,    /* OBJ_sm4_gcm                      1 2 156 10197 1 104 8 */
+    1195,    /* OBJ_sm4_bs256_ecb                1 2 156 10197 1 104 9 */
+    1196,    /* OBJ_sm4_bs256_ctr                1 2 156 10197 1 104 10 */
+    1197,    /* OBJ_sm4_bs256_gcm                1 2 156 10197 1 104 11 */
     1172,    /* OBJ_sm2                          1 2 156 10197 1 301 */
     1143,    /* OBJ_sm3                          1 2 156 10197 1 401 */
     1144,    /* OBJ_sm3WithRSAEncryption         1 2 156 10197 1 504 */
