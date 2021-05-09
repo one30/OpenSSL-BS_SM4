@@ -43,7 +43,6 @@ extern int gendsa_main(int argc, char *argv[]);
 extern int genpkey_main(int argc, char *argv[]);
 extern int genrsa_main(int argc, char *argv[]);
 extern int help_main(int argc, char *argv[]);
-extern int kexianspeed_main(int argc, char *argv[]);
 extern int list_main(int argc, char *argv[]);
 extern int nseq_main(int argc, char *argv[]);
 extern int ocsp_main(int argc, char *argv[]);
@@ -65,6 +64,7 @@ extern int s_server_main(int argc, char *argv[]);
 extern int s_time_main(int argc, char *argv[]);
 extern int sess_id_main(int argc, char *argv[]);
 extern int smime_main(int argc, char *argv[]);
+extern int speed_main(int argc, char *argv[]);
 extern int spkac_main(int argc, char *argv[]);
 extern int srp_main(int argc, char *argv[]);
 extern int storeutl_main(int argc, char *argv[]);
@@ -92,7 +92,6 @@ extern const OPTIONS gendsa_options[];
 extern const OPTIONS genpkey_options[];
 extern const OPTIONS genrsa_options[];
 extern const OPTIONS help_options[];
-extern const OPTIONS kexianspeed_options[];
 extern const OPTIONS list_options[];
 extern const OPTIONS nseq_options[];
 extern const OPTIONS ocsp_options[];
@@ -114,6 +113,7 @@ extern const OPTIONS s_server_options[];
 extern const OPTIONS s_time_options[];
 extern const OPTIONS sess_id_options[];
 extern const OPTIONS smime_options[];
+extern const OPTIONS speed_options[];
 extern const OPTIONS spkac_options[];
 extern const OPTIONS srp_options[];
 extern const OPTIONS storeutl_options[];
@@ -163,7 +163,6 @@ static FUNCTION functions[] = {
     {FT_general, "genrsa", genrsa_main, genrsa_options},
 #endif
     {FT_general, "help", help_main, help_options},
-    {FT_general, "kexianspeed", kexianspeed_main, kexianspeed_options},
     {FT_general, "list", list_main, list_options},
     {FT_general, "nseq", nseq_main, nseq_options},
 #ifndef OPENSSL_NO_OCSP
@@ -197,6 +196,7 @@ static FUNCTION functions[] = {
 #endif
     {FT_general, "sess_id", sess_id_main, sess_id_options},
     {FT_general, "smime", smime_main, smime_options},
+    {FT_general, "speed", speed_main, speed_options},
     {FT_general, "spkac", spkac_main, spkac_options},
 #ifndef OPENSSL_NO_SRP
     {FT_general, "srp", srp_main, srp_options},
