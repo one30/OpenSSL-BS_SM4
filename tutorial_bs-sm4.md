@@ -265,3 +265,9 @@ tasks.json:
     "version": "2.0.0"
  }
 ```
+compile:
+export LD_LIBRARY_PATH=/home/one30/temp/openssl-1.1.1i
+gcc -g -Iinclude -c test_bs-sm4.c 
+gcc -g test_bs-sm4.o ./libcrypto.so -o test_bs-sm4
+run:
+

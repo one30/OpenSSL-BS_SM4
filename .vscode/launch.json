@@ -8,7 +8,7 @@
             "name": "gcc-10 - 生成和调试活动文件",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/a.out",
+            "program": "${workspaceFolder}/test_bs-sm4",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
