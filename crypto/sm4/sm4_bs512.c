@@ -3,7 +3,7 @@
  * @Version      : 
  * @Autor        : one30: one30@m.scnu.edu.cn(email)
  * @Date         : 2021-05-11 19:10:27
- * @LastEditTime : 2021-05-12 13:15:34
+ * @LastEditTime : 2021-05-12 17:58:11
  * @FilePath     : /crypto/sm4/sm4_bs512.c
  */
 
@@ -257,10 +257,10 @@ static ossl_inline void BS_TRANS2_128x512(__m128i* M,__m512i* N){
     uint64_t t0[2], t1[2], t2[2], t3[2];
     for(int i=0; i<128; i++)
     {
-        _mm_store_si128((uint64_t*)t0, M[i]);
-        _mm_store_si128((uint64_t*)t1, M[128+i]);
-        _mm_store_si128((uint64_t*)t2, M[256+i]);
-        _mm_store_si128((uint64_t*)t3, M[384+i]);
+        _mm_store_si128((__m128i*)t0, M[i]);
+        _mm_store_si128((__m128i*)t1, M[128+i]);
+        _mm_store_si128((__m128i*)t2, M[256+i]);
+        _mm_store_si128((__m128i*)t3, M[384+i]);
         N[i] = _mm512_set_epi64(t3[1], t3[0], t2[1], t2[0], 
             t1[1], t1[0], t0[1], t0[0]);
     }
@@ -284,7 +284,7 @@ static ossl_inline void BS_TRANS2_VER_128x512(__m512i* N,__m128i* M){
 }
 
 //130 gates - lwaes_isa
-static ossl_inline void Sm4_BS512_BoolFun(bits in, __m512i *out0, __m512i *out1, __m512i *out2, __m512i *out3,
+static ossl_inline void Sm4_BS512_BoolFun(bits_512 in, __m512i *out0, __m512i *out1, __m512i *out2, __m512i *out3,
      __m512i *out4, __m512i *out5, __m512i *out6, __m512i *out7){
         __m512i y_t[21], t_t[8], t_m[46], y_m[18], t_b[30];
   	    y_t[18] = in.b2 ^in.b6;
@@ -425,7 +425,7 @@ static ossl_inline void Sm4_BS512_BoolFun(bits in, __m512i *out0, __m512i *out1,
 
 static ossl_inline void Sbox_BS512(int round,__m512i buf_512[36][32])
 {
-    bits sm4;
+    bits_512 sm4;
 
     for(int i = 0; i<4; i++)
     {
@@ -445,12 +445,10 @@ static ossl_inline void Sbox_BS512(int round,__m512i buf_512[36][32])
 
 }
 
-static ossl_inline void BS512_iteration(__m512i* N, __m512i BS_RK_512[32][32])
+static ossl_inline void BS512_iteration(__m512i* N, const __m512i BS_RK_512[32][32])
 {
     int i = 0;
-    uint64_t t1 , t2;
     __m512i buf_512[36][32];
-    __m512i N_temp[128];
     __m512i temp_512[36][32];
 
     for(int j = 0; j < 4; j++)
@@ -527,7 +525,7 @@ static ossl_inline void BS512_iteration(__m512i* N, __m512i BS_RK_512[32][32])
 
 }
 
-static ossl_inline void sm4_bs512_enc(__m128i* M,__m512i* N,__m512i rk[32][32])
+static ossl_inline void sm4_bs512_enc(__m128i* M,__m512i* N,const __m512i rk[32][32])
 {
     BS_TRANS2_128x512(M,N);
     BS512_iteration(N,rk);
@@ -547,10 +545,6 @@ void SM4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,const SM4_BS51
     __m128i vindex_swap = _mm_setr_epi8(
 		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
 	);
-    __m256i vindex_swap2 = _mm256_setr_epi8(
-		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
-        7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
-	);
     __m512i vindex_swap3 = _mm512_set_epi8(
 		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
         7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
@@ -560,7 +554,7 @@ void SM4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,const SM4_BS51
 
     uint8_t temp[size];
     memmove(temp, inputb, size);
-    __m512i* out = (__m512i*)outputb;
+    // __m512i* out = (__m512i*)outputb;
     __m128i* in = (__m128i*)temp;;
 
     while(size > 0)
@@ -576,21 +570,15 @@ void SM4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,const SM4_BS51
             
             sm4_bs512_enc(input_space,output_space,ks->bs512_rk);
 
-
-            // for(int i=0; i<(size+16)/32; i++)
-            // {
-            //     t2 = _mm256_shuffle_epi8(output_space[i],vindex_swap2);
-            //     _mm256_storeu_si256(out+i,t2);          
-            // }
-            __m128i* out_t = (__m128i*)out;
+            __m128i* out_t = (__m128i*)outputb;
             for(int i=0; i<size/16; i++)
             {
                 t = _mm_shuffle_epi8(input_space[i],vindex_swap);
                 _mm_storeu_si128(out_t,t);
                 out_t++;
             }
+            outputb += size;
             size = 0;
-            //out += size;
         }
         else
         {
@@ -600,13 +588,15 @@ void SM4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,const SM4_BS51
                 _mm_storeu_si128(input_space+i,t);
             }
             sm4_bs512_enc(input_space,output_space, ks->bs512_rk);
+            __m512i* out_t = (__m512i*)outputb;
             for(int i=0; i<BLOCK_SIZE; i++)
             {
                 t2 = _mm512_shuffle_epi8(output_space[i],vindex_swap3);
-                _mm512_storeu_si512(out+i,t2);          
+                _mm512_storeu_si512(out_t,t2);     
+                out_t++;     
             }
             size -= BS512_CHUNK_SIZE;
-            out += BLOCK_SIZE;
+            outputb += BLOCK_SIZE;
             in += BLOCK_SIZE*4;
         }
         
@@ -625,10 +615,6 @@ void sm4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,int size,const
     __m128i vindex_swap = _mm_setr_epi8(
 		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
 	);
-    __m256i vindex_swap2 = _mm256_setr_epi8(
-		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
-        7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
-	);
     __m512i vindex_swap3 = _mm512_set_epi8(
 		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
         7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
@@ -638,7 +624,7 @@ void sm4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,int size,const
 
     uint8_t temp[size];
     memmove(temp, inputb, size);
-    __m512i* out = (__m512i*)outputb;
+    // __m512i* out = (__m512i*)outputb;
     __m128i* in = (__m128i*)temp;;
 
     while(size > 0)
@@ -654,21 +640,15 @@ void sm4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,int size,const
             
             sm4_bs512_enc(input_space,output_space,ks->bs512_rk);
 
-
-            // for(int i=0; i<(size+16)/32; i++)
-            // {
-            //     t2 = _mm256_shuffle_epi8(output_space[i],vindex_swap2);
-            //     _mm256_storeu_si256(out+i,t2);          
-            // }
-            __m128i* out_t = (__m128i*)out;
+            __m128i* out_t = (__m128i*)outputb;
             for(int i=0; i<size/16; i++)
             {
                 t = _mm_shuffle_epi8(input_space[i],vindex_swap);
                 _mm_storeu_si128(out_t,t);
                 out_t++;
             }
+            outputb += size;
             size = 0;
-            //out += size;
         }
         else
         {
@@ -678,13 +658,15 @@ void sm4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,int size,const
                 _mm_storeu_si128(input_space+i,t);
             }
             sm4_bs512_enc(input_space,output_space, ks->bs512_rk);
+            __m512i* out_t = (__m512i*)outputb;
             for(int i=0; i<BLOCK_SIZE; i++)
             {
                 t2 = _mm512_shuffle_epi8(output_space[i],vindex_swap3);
-                _mm512_storeu_si512(out+i,t2);          
+                _mm512_storeu_si512(out_t,t2);          
+                out_t++;
             }
             size -= BS512_CHUNK_SIZE;
-            out += BLOCK_SIZE;
+            outputb += BLOCK_SIZE;
             in += BLOCK_SIZE*4;
         }
         
@@ -698,17 +680,12 @@ void sm4_bs512_ctr_encrypt(const uint8_t * inputb, uint8_t * outputb, int size, 
     __m128i ctr[BLOCK_SIZE*4];
     __m512i output_space[BLOCK_SIZE];
     __m128i iv_copy;
-    __m128i t,t2;
+    __m128i t;
     __m128i count = _mm_setzero_si128();
-    //uint64_t count = 0;
     uint64_t op[2] = {0,1};
     __m128i cnt = _mm_loadu_si128((__m128i*)op);
     __m128i vindex_swap = _mm_setr_epi8(
 		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
-	);
-    __m256i vindex_swap2 = _mm256_setr_epi8(
-		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
-        7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
 	);
 
     memset(outputb,0,size);
@@ -716,8 +693,6 @@ void sm4_bs512_ctr_encrypt(const uint8_t * inputb, uint8_t * outputb, int size, 
     // t = _mm_load_si128((__m128i *)iv);
     t = _mm_loadu_si128((__m128i *)iv);
     iv_copy = _mm_shuffle_epi8(t,vindex_swap);
-
-    __m512i * state = (__m512i *)outputb;
 
     while(size)
     {

@@ -13,7 +13,12 @@
         "objects.h": "c",
         "opensslconf.h": "c",
         "sm4_bs256.h": "c",
-        "sm4_bs512.h": "c"
+        "sm4_bs512.h": "c",
+        "limits": "cpp",
+        "ranges": "cpp",
+        "bit": "cpp",
+        "list": "cpp",
+        "functional": "cpp"
     },
     "git.ignoreLimitWarning": true
 }

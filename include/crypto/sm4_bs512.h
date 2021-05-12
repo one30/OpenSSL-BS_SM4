@@ -3,7 +3,7 @@
  * @Version      : 
  * @Autor        : one30: one30@m.scnu.edu.cn(email)
  * @Date         : 2021-03-28 10:02:59
- * @LastEditTime : 2021-05-11 21:25:42
+ * @LastEditTime : 2021-05-12 16:11:49
  * @FilePath     : /include/crypto/sm4_bs512.h
  */
 #ifndef OSSL_CRYPTO_SM4_BS512_H
@@ -44,7 +44,7 @@ typedef struct {
   __m512i b5;
   __m512i b6;
   __m512i b7;
-} bits;
+} bits_512;
 
 int SM4_BS512_set_key(const uint8_t *key, SM4_BS512_KEY *ks);
 void SM4_bs512_ecb_encrypt(const uint8_t* inputb,uint8_t* outputb,const SM4_BS512_KEY *ks);

@@ -186,7 +186,7 @@ void test_encrypt_with_sm4bs256_gcm(){
     EVP_CIPHER_CTX *ctx;
     int outlen, tmplen;
     unsigned char outbuf[1024];
-    printf("\nSM4_bit-slice GCM Encrypt:\n");
+    printf("SM4_bit-slice GCM Encrypt:\n");
     printf("Plaintext:\n");
     BIO_dump_fp(stdout, pt_vector, sizeof(pt_vector));
     ctx = EVP_CIPHER_CTX_new();
@@ -332,6 +332,7 @@ void main()
     int have_sm4 = (OPENSSL_VERSION_NUMBER >= 0x10101001L);
     int have_aes = 1;
     int have_sm4_bs256 = 1;
+    int have_sm4_bs512 = 1;
     const unsigned char data[]=
     {
         0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef,
@@ -402,14 +403,18 @@ void main()
         test_encrypt_with_cipher(&tc_2, EVP_sm4_bs256_ctr());
     }
 
-#if defined(OPENSSL_NO_AES)
-    have_aes = 0;
+#if defined(OPENSSL_NO_BS512_SM4)
+    have_sm4_bs512 = 0;
 #endif
-    if (have_aes)
+    if (have_sm4_bs512)
     {
         printf("[3]\n");
-        printf("Debug: EVP_aes_128_ecb() test\n");
-        test_encrypt_with_cipher(&tc, EVP_aes_128_ecb());
+        printf("Debug: EVP_sm4_bs512_ecb() test\n");
+        test_encrypt_with_cipher(&tc, EVP_sm4_bs512_ecb());
+        test_encrypt_with_cipher(&tc_2, EVP_sm4_bs512_ecb());
+        printf("Debug: EVP_sm4_bs512_ctr() test\n");
+        test_encrypt_with_cipher(&tc, EVP_sm4_bs512_ctr());
+        test_encrypt_with_cipher(&tc_2, EVP_sm4_bs512_ctr());
     }
 
     // printf("Debug: bitsice_sm4_gcm() test\n");
@@ -418,10 +423,10 @@ void main()
     printf("Debug: EVP_sm4_gcm() test\n");
     test_encrypt_with_gcm();
 
-    printf("Debug: EVP_sm4-bs256_gcm() test\n");
+    printf("\nDebug: EVP_sm4-bs256_gcm() test\n");
     test_encrypt_with_sm4bs256_gcm();
 
-    printf("Debug: EVP_sm4-bs512_gcm() test\n");
+    printf("\nDebug: EVP_sm4-bs512_gcm() test\n");
     test_encrypt_with_sm4bs512_gcm();
 
 }

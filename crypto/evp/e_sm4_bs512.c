@@ -3,12 +3,13 @@
  * @Version      : 
  * @Autor        : one30: one30@m.scnu.edu.cn(email)
  * @Date         : 2021-05-11 20:36:44
- * @LastEditTime : 2021-05-12 11:18:32
+ * @LastEditTime : 2021-05-12 16:54:54
  * @FilePath     : /crypto/evp/e_sm4_bs512.c
  */
 #include "internal/cryptlib.h"
 #ifndef OPENSSL_NO_BS512_SM4
 # include <openssl/evp.h>
+#include <openssl/rand.h>
 # include "crypto/sm4_bs512.h"
 #include "crypto/sm4.h"
 # include "crypto/evp.h"
@@ -23,7 +24,7 @@ typedef struct {
 typedef struct {
     union {
         double align;
-        EVP_SM4_BS512_KEY ks;
+        SM4_BS512_KEY ks;
     } ks;                       /* SM4 key schedule to use */
     int key_set;                /* Set if key initialised */
     int iv_set;                 /* Set if an iv is set */

@@ -1,0 +1,101 @@
+[1]
+Debug: EVP_sm4_ecb() test
+Debug: out_len=16
+Debug: out_padding_len=0
+68 1e df 34 d2 06 96 5e 86 b3 e9 4f 53 6e 42 46 
+
+Debug: out_len=32
+Debug: out_padding_len=0
+5e c8 14 3d e5 09 cf f7 b5 17 9f 8f 47 4b 86 19 
+2f 1d 30 5a 7f b1 7d f9 85 f8 1c 84 82 19 23 04 
+
+Debug: EVP_sm4_ctr() test
+Debug: out_len=16
+Debug: out_padding_len=0
+27 54 b1 0c 80 6a ef 23 69 89 89 88 2d 80 90 3a 
+
+Debug: out_len=32
+Debug: out_padding_len=0
+8c dd 5e c1 b2 7a 99 77 5b 99 ff dc 86 09 7f f7 
+a0 b7 b5 1e c0 dc 42 ef 98 31 05 fc 23 53 23 57 
+
+[2]
+Debug: EVP_sm4_bs256_ecb() test
+Debug: out_len=16
+Debug: out_padding_len=0
+68 1e df 34 d2 06 96 5e 86 b3 e9 4f 53 6e 42 46 
+
+Debug: out_len=32
+Debug: out_padding_len=0
+5e c8 14 3d e5 09 cf f7 b5 17 9f 8f 47 4b 86 19 
+2f 1d 30 5a 7f b1 7d f9 85 f8 1c 84 82 19 23 04 
+
+Debug: EVP_sm4_bs256_ctr() test
+Debug: out_len=16
+Debug: out_padding_len=0
+27 54 b1 0c 80 6a ef 23 69 89 89 88 2d 80 90 3a 
+
+Debug: out_len=32
+Debug: out_padding_len=0
+8c dd 5e c1 b2 7a 99 77 5b 99 ff dc 86 09 7f f7 
+a0 b7 b5 1e c0 dc 42 ef 98 31 05 fc 23 53 23 57 
+
+[3]
+Debug: EVP_sm4_bs512_ecb() test
+Debug: out_len=16
+Debug: out_padding_len=0
+68 1e df 34 d2 06 96 5e 86 b3 e9 4f 53 6e 42 46 
+
+Debug: out_len=32
+Debug: out_padding_len=0
+5e c8 14 3d e5 09 cf f7 b5 17 9f 8f 47 4b 86 19 
+2f 1d 30 5a 7f b1 7d f9 85 f8 1c 84 82 19 23 04 
+
+Debug: EVP_sm4_bs512_ctr() test
+Debug: out_len=16
+Debug: out_padding_len=0
+27 54 b1 0c 80 6a ef 23 69 89 89 88 2d 80 90 3a 
+
+Debug: out_len=32
+Debug: out_padding_len=0
+8c dd 5e c1 b2 7a 99 77 5b 99 ff dc 86 09 7f f7 
+a0 b7 b5 1e c0 dc 42 ef 98 31 05 fc 23 53 23 57 
+
+Debug: EVP_sm4_gcm() test
+SM4 GCM Encrypt:
+Plaintext:
+0000 - 08 06 00 01 08 00 06 04-00 01 00 03 7f ff ff fe   ................
+0010 - c0 a8 14 0a 00 00 00 00-00 00 c0 a8 14 0d 00 00   ................
+0020 - 00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00   ................
+Ciphertext:
+0000 - 0a 59 91 a6 70 dc 0e a2-6f 84 e4 55 a1 c0 61 47   .Y..p...o..U..aG
+0010 - 8a a0 9f 2f be 90 49 46-29 bc 58 e7 5b e5 e9 1d   .../..IF).X.[...
+0020 - bc 6d 21 49 bc 1f ba ca-ca a9 72 2d 61 0f de 1d   .m!I......r-a...
+Tag:
+0000 - 99 20 b1 eb fb 59 02 5f-0e ba 77 8c f5 9a 5c c8   . ...Y._..w...\.
+
+Debug: EVP_sm4-bs256_gcm() test
+SM4_bit-slice GCM Encrypt:
+Plaintext:
+0000 - 08 06 00 01 08 00 06 04-00 01 00 03 7f ff ff fe   ................
+0010 - c0 a8 14 0a 00 00 00 00-00 00 c0 a8 14 0d 00 00   ................
+0020 - 00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00   ................
+Ciphertext:
+0000 - 0a 59 91 a6 70 dc 0e a2-6f 84 e4 55 a1 c0 61 47   .Y..p...o..U..aG
+0010 - 8a a0 9f 2f be 90 49 46-29 bc 58 e7 5b e5 e9 1d   .../..IF).X.[...
+0020 - bc 6d 21 49 bc 1f ba ca-ca a9 72 2d 61 0f de 1d   .m!I......r-a...
+Tag:
+0000 - 99 20 b1 eb fb 59 02 5f-0e ba 77 8c f5 9a 5c c8   . ...Y._..w...\.
+
+Debug: EVP_sm4-bs512_gcm() test
+SM4_bit-slice GCM Encrypt:
+Plaintext:
+0000 - 08 06 00 01 08 00 06 04-00 01 00 03 7f ff ff fe   ................
+0010 - c0 a8 14 0a 00 00 00 00-00 00 c0 a8 14 0d 00 00   ................
+0020 - 00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00   ................
+Ciphertext:
+0000 - 0a 59 91 a6 70 dc 0e a2-6f 84 e4 55 a1 c0 61 47   .Y..p...o..U..aG
+0010 - 8a a0 9f 2f be 90 49 46-29 bc 58 e7 5b e5 e9 1d   .../..IF).X.[...
+0020 - bc 6d 21 49 bc 1f ba ca-ca a9 72 2d 61 0f de 1d   .m!I......r-a...
+Tag:
+0000 - 99 20 b1 eb fb 59 02 5f-0e ba 77 8c f5 9a 5c c8   . ...Y._..w...\.

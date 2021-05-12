@@ -3,12 +3,13 @@
  * @Version      : 
  * @Autor        : one30: one30@m.scnu.edu.cn(email)
  * @Date         : 2021-03-28 01:23:26
- * @LastEditTime : 2021-05-11 20:47:53
+ * @LastEditTime : 2021-05-12 16:54:38
  * @FilePath     : /crypto/evp/e_sm4_bs256.c
  */
 #include "internal/cryptlib.h"
 #ifndef OPENSSL_NO_BS256_SM4
 # include <openssl/evp.h>
+#include <openssl/rand.h>
 # include "crypto/sm4_bs256.h"
 #include "crypto/sm4.h"
 # include "crypto/evp.h"

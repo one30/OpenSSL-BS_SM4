@@ -2,9 +2,6 @@
 #include "crypto/sm4.h"
 #include "crypto/sm4_bs256.h"
 
-#define _mm256_set_m128i(v0, v1)  _mm256_insertf128_si256(_mm256_castsi128_si256(v1), (v0), 1)
-#define _mm256_setr_m128i(v0, v1) _mm256_set_m128i((v1), (v0))
-
 static const uint8_t SM4_S[256] = {
     0xD6, 0x90, 0xE9, 0xFE, 0xCC, 0xE1, 0x3D, 0xB7, 0x16, 0xB6, 0x14, 0xC2,
     0x28, 0xFB, 0x2C, 0x05, 0x2B, 0x67, 0x9A, 0x76, 0x2A, 0xBE, 0x04, 0xC3,
@@ -300,7 +297,7 @@ static ossl_inline void BS_TRANS_VER_128x256(__m256i* N,__m128i* M){
     __m128i t[2];
     for(int i=0; i<128; i++)
     {
-        _mm256_store_si256((__m128i*)t, N[i]);
+        _mm256_store_si256((__m256i*)t, N[i]);
         M[i] = t[1];
         M[128+i] = t[0];
     }
@@ -622,12 +619,10 @@ static ossl_inline void S_box(int round,__m256i buf_256[36][32])
 
 }
 
-static ossl_inline void BS_iteration(__m256i* N,__m256i BS_RK_256[32][32])
+static ossl_inline void BS_iteration(__m256i* N,const __m256i BS_RK_256[32][32])
 {
     int i = 0;
-    uint64_t t1 , t2;
     __m256i buf_256[36][32];
-    __m256i N_temp[128];
     __m256i temp_256[36][32];
 
     for(int j = 0; j < 4; j++)
@@ -671,7 +666,7 @@ static ossl_inline void BS_iteration(__m256i* N,__m256i BS_RK_256[32][32])
 
 }
 
-static ossl_inline void sm4_bs256_enc(const __m128i M[256],__m256i N[128],const __m256i rk[32][32])
+static ossl_inline void sm4_bs256_enc(__m128i M[256],__m256i N[128],const __m256i rk[32][32])
 {
     BS_TRANS_128x256(M,N);
     BS_iteration(N,rk);
@@ -702,7 +697,7 @@ void SM4_bs256_ecb_encrypt(const uint8_t *in, uint8_t *out, const SM4_BS256_KEY 
     // memset(out,0,size);
     uint8_t temp[size];
     memmove(temp, in, size);
-    __m256i* out_256 = (__m256i*)out;
+    // __m256i* out_256 = (__m256i*)out;
     __m128i* in_128 = (__m128i*)temp;
     
     // sm4_bs256_key_schedule(key,rk);
@@ -720,14 +715,14 @@ void SM4_bs256_ecb_encrypt(const uint8_t *in, uint8_t *out, const SM4_BS256_KEY 
 
             sm4_bs256_enc(input_space,output_space,ks->bs_rk);
 
-            __m128i* out_t = (__m128i*)out_256;
+            __m128i* out_t = (__m128i*)out;
             for(int i=0; i<size/16; i++)
             {
                 t = _mm_shuffle_epi8(input_space[i],vindex_swap);
                 _mm_storeu_si128(out_t,t);
                 out_t++;
             }
-            // out += size;
+            out += size;
             size = 0;
         }
         else
@@ -738,10 +733,12 @@ void SM4_bs256_ecb_encrypt(const uint8_t *in, uint8_t *out, const SM4_BS256_KEY 
                 _mm_storeu_si128(input_space+i,t);
             }
             sm4_bs256_enc(input_space,output_space,ks->bs_rk);
+            __m256i* out_t = (__m256i*)out;
             for(int i=0; i<128; i++)
             {
                 t2 = _mm256_shuffle_epi8(output_space[i],vindex_swap2);
-                _mm256_storeu_si256(out+i,t2);          
+                _mm256_storeu_si256(out_t,t2); 
+                out_t++;         
             }
             size -= BS_BLOCK_SIZE;
             out += 128;
@@ -772,7 +769,7 @@ void sm4_bs256_ecb_encrypt(const uint8_t *in, uint8_t *out, int size, const SM4_
     // memset(out,0,size);
     uint8_t temp[size];
     memmove(temp, in, size);
-    __m256i* out_256 = (__m256i*)out;
+    // __m256i* out_256 = (__m256i*)out;
     __m128i* in_128 = (__m128i*)temp;
     
 
@@ -789,14 +786,14 @@ void sm4_bs256_ecb_encrypt(const uint8_t *in, uint8_t *out, int size, const SM4_
 
             sm4_bs256_enc(input_space,output_space,ks->bs_rk);
 
-            __m128i* out_t = (__m128i*)out_256;
+            __m128i* out_t = (__m128i*)out;
             for(int i=0; i<size/16; i++)
             {
                 t = _mm_shuffle_epi8(input_space[i],vindex_swap);
                 _mm_storeu_si128(out_t,t);
                 out_t++;
             }
-            // out += size;
+            out += size;
             size = 0;
         }
         else
@@ -807,10 +804,13 @@ void sm4_bs256_ecb_encrypt(const uint8_t *in, uint8_t *out, int size, const SM4_
                 _mm_storeu_si128(input_space+i,t);
             }
             sm4_bs256_enc(input_space,output_space,ks->bs_rk);
+
+            __m256i* out_t = (__m256i*)out;
             for(int i=0; i<128; i++)
             {
                 t2 = _mm256_shuffle_epi8(output_space[i],vindex_swap2);
-                _mm256_storeu_si256(out+i,t2);          
+                _mm256_storeu_si256(out_t,t2);       
+                out_t++;   
             }
             size -= BS_BLOCK_SIZE;
             out += 128;
@@ -828,7 +828,7 @@ void sm4_bs256_ctr_encrypt(const uint8_t * inputb, uint8_t * outputb, int size, 
     __m128i ctr[BLOCK_SIZE*2];
     __m256i output_space[BLOCK_SIZE];
     __m128i iv_copy;
-    __m128i t,t2;
+    __m128i t;
     __m128i count = _mm_setzero_si128();
     //uint64_t count = 0;
     uint64_t op[2] = {0,1};
@@ -836,18 +836,12 @@ void sm4_bs256_ctr_encrypt(const uint8_t * inputb, uint8_t * outputb, int size, 
     __m128i vindex_swap = _mm_setr_epi8(
 		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
 	);
-    __m256i vindex_swap2 = _mm256_setr_epi8(
-		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
-        7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
-	);
 
     memset(outputb,0,size);
     memset(ctr,0,sizeof(ctr));
     // t = _mm_load_si128((__m128i *)iv);
     t = _mm_loadu_si128((__m128i *)iv);
     iv_copy = _mm_shuffle_epi8(t,vindex_swap);
-
-    __m256i * state = (__m256i *)outputb;
 
     while(size)
     {
@@ -864,7 +858,6 @@ void sm4_bs256_ctr_encrypt(const uint8_t * inputb, uint8_t * outputb, int size, 
             count = _mm_add_epi64(count,cnt);
         }
 
-        //bs_cipher(ctr, rk);
         sm4_bs256_enc(ctr,output_space,ks->bs_rk);
         for(i=0; i<blocks; i++)
         {
@@ -879,291 +872,4 @@ void sm4_bs256_ctr_encrypt(const uint8_t * inputb, uint8_t * outputb, int size, 
         }
 
     }
-}
-
-void *gcm_init() {
-    return malloc(sizeof(gcm_context));
-}
-
-void gcm_free( void *ctx ) {
-    if ( ctx ) {
-        gcm_context *temp_ctx = (gcm_context*)ctx;
-        if ( temp_ctx->rk ) {
-            free(temp_ctx->rk);
-        }
-        free(ctx);
-    }
-}
-
- void otherT(uint8_t T[][256][16]) {
-	int i = 0, j = 0, k = 0;
-	uint64_t vh, vl;
-	uint64_t zh, zl;
-	for ( i = 0; i < 256; i++ ) {
-		vh = ((uint64_t)T[0][i][0]<<56) ^ ((uint64_t)T[0][i][1]<<48) ^ ((uint64_t)T[0][i][2]<<40) ^ ((uint64_t)T[0][i][3]<<32) ^
-			((uint64_t)T[0][i][4]<<24) ^ ((uint64_t)T[0][i][5]<<16) ^ ((uint64_t)T[0][i][6]<<8) ^ ((uint64_t)T[0][i][7]);
-		vl = ((uint64_t)T[0][i][8]<<56) ^ ((uint64_t)T[0][i][9]<<48) ^ ((uint64_t)T[0][i][10]<<40) ^ ((uint64_t)T[0][i][11]<<32) ^
-			((uint64_t)T[0][i][12]<<24) ^ ((uint64_t)T[0][i][13]<<16) ^ ((uint64_t)T[0][i][14]<<8) ^ ((uint64_t)T[0][i][15]);
-		zh = zl = 0;
-		for ( j = 0; j <= 120; j++ ) {
-			if ( (j > 0) && (0 == j%8) ) {
-				zh ^= vh;
-				zl ^= vl;
-				for ( k = 1; k <= GCM_BLOCK_SIZE/2; k++ ) {
-					T[j/8][i][GCM_BLOCK_SIZE/2-k] = (uint8_t)zh;
-					zh = zh >> 8;
-					T[j/8][i][GCM_BLOCK_SIZE-k] = (uint8_t)zl;
-					zl = zl >> 8;
-				}
-				zh = zl = 0;
-			}
-			if ( vl & 0x1 ) {
-				vl = vl >> 1;
-				if ( vh & 0x1) { vl ^= 0x8000000000000000;}
-				vh = vh >> 1;
-				vh ^= GCM_FIELD_CONST;
-			} else {
-				vl = vl >> 1;
-				if ( vh & 0x1) { vl ^= 0x8000000000000000;}
-				vh = vh >> 1;
-			}
-		}
-	}
-}
-
-void computeTable(uint8_t T[][256][16], uint8_t H[]) {
-
-	// zh is the higher 64-bit, zl is the lower 64-bit
-	uint64_t zh = 0, zl = 0;
-	// vh is the higher 64-bit, vl is the lower 64-bit
-	uint64_t vh = ((uint64_t)H[0]<<56) ^ ((uint64_t)H[1]<<48) ^ ((uint64_t)H[2]<<40) ^ ((uint64_t)H[3]<<32) ^
-			((uint64_t)H[4]<<24) ^ ((uint64_t)H[5]<<16) ^ ((uint64_t)H[6]<<8) ^ ((uint64_t)H[7]);
-	uint64_t vl = ((uint64_t)H[8]<<56) ^ ((uint64_t)H[9]<<48) ^ ((uint64_t)H[10]<<40) ^ ((uint64_t)H[11]<<32) ^
-			((uint64_t)H[12]<<24) ^ ((uint64_t)H[13]<<16) ^ ((uint64_t)H[14]<<8) ^ ((uint64_t)H[15]);
-	uint8_t temph;
-
-	uint64_t tempvh = vh;
-	uint64_t tempvl = vl;
-	int i = 0, j = 0;
-	for ( i = 0; i < 256; i++ ) {
-		temph = (uint8_t)i;
-		vh = tempvh;
-		vl = tempvl;
-		zh = zl = 0;
-
-		for ( j = 0; j < 8; j++ ) {
-			if ( 0x80 & temph ) {
-				zh ^= vh;
-				zl ^= vl;
-			}
-			if ( vl & 0x1 ) {
-				vl = vl >> 1;
-				if ( vh & 0x1) { vl ^= 0x8000000000000000;}
-				vh = vh >> 1;
-				vh ^= GCM_FIELD_CONST;
-			} else {
-				vl = vl >> 1;
-				if ( vh & 0x1) { vl ^= 0x8000000000000000;}
-				vh = vh >> 1;
-			}
-			temph = temph << 1;
-		}
-		// get result
-		for ( j = 1; j <= GCM_BLOCK_SIZE/2; j++ ) {
-			T[0][i][GCM_BLOCK_SIZE/2-j] = (uint8_t)zh;
-			zh = zh >> 8;
-			T[0][i][GCM_BLOCK_SIZE-j] = (uint8_t)zl;
-			zl = zl >> 8;
-		}
-	}
-	otherT(T);
-}
-
-static void multi(uint8_t T[][256][16], uint8_t *output) {
-	uint8_t i, j;
-	uint8_t temp[16];
-	for ( i = 0; i < 16; i++ ) {
-		temp[i] = output[i];
-		output[i] = 0;
-	}
-	for ( i = 0; i < 16; i++ ) {
-		for ( j = 0; j < 16; j++ ) {
-			output[j] ^= T[i][*(temp+i)][j];
-		}
-	}
-
-
-	// __m128i Temp = _mm_load_si128((__m128i *)output);
-	// __m128i out = _mm_setzero_si128();
-	// for ( i = 0; i < 16; i++ ) {
-	// 	// for ( j = 0; j < 16; j++ ) {
-	// 	// 	output[j] ^= T[i][*(temp+i)][j];
-	// 	// }
-	// 	out ^= 
-	// }
-
-	
-	
-}
-
-void ghash(uint8_t T[][256][16],
-		const uint8_t *add, 
-		size_t add_len,
-		const uint8_t *cipher,
-		size_t length,
-		uint8_t *output) {
-	/* x0 = 0 */
-	*(uint64_t *)output = 0;
-	*((uint64_t *)output+1) = 0;
-
-	/* compute with add */
-	int i = 0;
-	for ( i = 0; i < add_len/GCM_BLOCK_SIZE; i++ ) {
-		*(uint64_t *)output ^= *(uint64_t *)add;
-		*((uint64_t *)output+1) ^= *((uint64_t *)add+1);
-		add += GCM_BLOCK_SIZE;
-		multi(T, output);
-	}
-
-	if ( add_len % GCM_BLOCK_SIZE ) {
-		// the remaining add
-		for ( i = 0; i < add_len%GCM_BLOCK_SIZE; i++ ) {
-			*(output+i) ^= *(add+i);
-		}
-		multi(T, output);
-	}
-
-	/* compute with cipher text */
-	for ( i = 0; i < length/GCM_BLOCK_SIZE; i++ ) {
-		*(uint64_t *)output ^= *(uint64_t *)cipher;
-		*((uint64_t *)output+1) ^= *((uint64_t *)cipher+1);
-		cipher += GCM_BLOCK_SIZE;
-		multi(T, output);
-	}
-	if ( length % GCM_BLOCK_SIZE ) {
-		// the remaining cipher
-		for ( i = 0; i < length%GCM_BLOCK_SIZE; i++ ) {
-			*(output+i) ^= *(cipher+i);
-		}
-		multi(T, output);
-	}
-
-	/* eor (len(A)||len(C)) */
-	uint64_t temp_len = (uint64_t)(add_len*8); // len(A) = (uint64_t)(add_len*8)
-	for ( i = 1; i <= GCM_BLOCK_SIZE/2; i++ ) {
-		output[GCM_BLOCK_SIZE/2-i] ^= (uint8_t)temp_len;
-		temp_len = temp_len >> 8;
-	}
-	temp_len = (uint64_t)(length*8); // len(C) = (uint64_t)(length*8)
-	for ( i = 1; i <= GCM_BLOCK_SIZE/2; i++ ) {
-		output[GCM_BLOCK_SIZE-i] ^= (uint8_t)temp_len;
-		temp_len = temp_len >> 8;
-	}
-	multi(T, output);
-}
-
-/**
- * @description: gcm mode of bitslice 256-slice of sm4
- * @param {uint8_t} *
- * @param {uint8_t} *
- * @param {int} size
- * @param {uint8_t} *
- * @return {*}
- * @Date: 2021-01-09 21:08:48
- * @author: one30
- */
-void sm4_bs256_gcm_encrypt(uint8_t *inputb, uint8_t *outputb, int size,
-    __m256i (*rk)[32], uint8_t *iv, int iv_len, uint8_t *add ,int add_len,
-    uint8_t *tag, int tag_len, uint8_t T[][256][16])
-{
-    int BLOCK_SIZE = 128;
-    int BS_BLOCK_SIZE = 4096;
-    __m128i ctr[BLOCK_SIZE*2 + 1];//gcm mode need H
-    __m256i output_space[BLOCK_SIZE];
-    __m128i iv_copy;
-    __m128i t,t2;
-    __m128i count = _mm_setzero_si128();
-    ctr[0] = count;//gcm mode 
-    //uint64_t count = 0;
-    uint64_t op[2] = {0,1};
-    __m128i cnt = _mm_loadu_si128((__m128i*)op);
-    __m128i vindex_swap = _mm_setr_epi8(
-		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
-	);
-    __m256i vindex_swap2 = _mm256_setr_epi8(
-		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,
-        7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
-	);
-    int length = size, flag = 1;
-
-    memset(outputb,0,size);
-    memset(ctr,0,sizeof(ctr));
-    t = _mm_load_si128((__m128i *)iv);
-    iv_copy = _mm_shuffle_epi8(t,vindex_swap);
-
-    __m256i * state = (__m256i *)outputb;
-
-    while(size)
-    {
-        int chunk = MIN(size, BS_BLOCK_SIZE);
-        int blocks = chunk / (BLOCK_SIZE/8);
-
-        //count = _mm_add_epi64(count,cnt);
-        int i;
-        for (i = 1; i <= blocks + 1; i++)//gcm mode need more 1 block
-        {
-            //ctr[i] = iv_copy + count;
-            //gcm mode iv from 0x01!
-            count = _mm_add_epi64(count,cnt);
-            ctr[i] = iv_copy + count;
-        }
-
-        //bs_cipher(ctr, rk);
-        sm4_bs256_enc(ctr,output_space,rk);
-
-        //shuffle the data because of the transforming Little-Endian to Big-Endian
-        for(i=0; i<=blocks+1; i++)
-        {
-            ctr[i] = _mm_shuffle_epi8(ctr[i],vindex_swap);
-
-        }
-        size -= chunk;
-
-        uint8_t * ctr_p = (uint8_t *) ctr + 32 ;
-        for(i=0; i<chunk; i++)
-        {
-            outputb[i] = *ctr_p++ ^ inputb[i];
-        }
-    }
-    
-    //Auth tag test
-    void * context = gcm_init();
-    if ( !context ) { 
-		printf("malloc failed.\n");
-	}
-
-    gcm_context *ctx = (gcm_context*)context;
-
-    //set H
-    uint8_t y0[GCM_BLOCK_SIZE] = {0}; // store the counter
-    uint8_t *ency0 = (uint8_t *) ctr; // the cihper text of first counter
-    for (int i = 0; i < GCM_BLOCK_SIZE; ++i ) { ctx->H[i] = ency0[i]; }
-
-    //compute table
-    //computeTable(ctx->T, ctx->H);
-
-    //compute y0 (initilization vector)
-    // if (GCM_DEFAULT_IV_LEN != sizeof(iv)){
-    //     ghash(ctx->T, NULL, 0, iv, sizeof(iv), y0);
-    // }
-
-    //compute tag
-    ghash(T,add,add_len, outputb, length , ctx->buff);
-    uint8_t *ency1 = (uint8_t *) ctr + 16;
-    for (int i = 0; i < tag_len; ++i ) {
-        tag[i] = ctx->buff[i] ^ ency1[i];
-    }
-
-    gcm_free(context);
-
 }
