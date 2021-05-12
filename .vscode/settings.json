@@ -11,7 +11,9 @@
         "evp.h": "c",
         "sm4.h": "c",
         "objects.h": "c",
-        "opensslconf.h": "c"
+        "opensslconf.h": "c",
+        "sm4_bs256.h": "c",
+        "sm4_bs512.h": "c"
     },
     "git.ignoreLimitWarning": true
 }

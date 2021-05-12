@@ -1196,3 +1196,6 @@ sm4_bs256_ecb		1195
 sm4_bs256_ctr		1196
 sm4_bs256_gcm		1197
 sm4_gcm		1198
+sm4_bs512_ecb		1199
+sm4_bs512_ctr		1200
+sm4_bs512_gcm		1201

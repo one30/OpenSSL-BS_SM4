@@ -1,4 +1,3 @@
 LIBS=../../libcrypto
 SOURCE[../../libcrypto]=\
-        sm4.c sm4_bs.c
-
+        sm4.c sm4_bs256.c sm4_bs512.c

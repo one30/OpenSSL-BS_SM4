@@ -940,10 +940,16 @@ const EVP_CIPHER *EVP_sm4_ctr(void);
 const EVP_CIPHER *EVP_sm4_gcm(void);
 # endif
 
-# ifndef OPENSSL_NO_BS_SM4
+# ifndef OPENSSL_NO_BS256_SM4
 const EVP_CIPHER *EVP_sm4_bs256_ecb(void);
 const EVP_CIPHER *EVP_sm4_bs256_ctr(void);
 const EVP_CIPHER *EVP_sm4_bs256_gcm(void);
+# endif
+
+# ifndef OPENSSL_NO_BS512_SM4
+const EVP_CIPHER *EVP_sm4_bs512_ecb(void);
+const EVP_CIPHER *EVP_sm4_bs512_ctr(void);
+const EVP_CIPHER *EVP_sm4_bs512_gcm(void);
 # endif
 
 # if OPENSSL_API_COMPAT < 0x10100000L

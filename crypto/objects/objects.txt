@@ -1523,6 +1523,9 @@ sm-scheme 104 8         : SM4-GCM             : sm4-gcm
 sm-scheme 104 9         : SM4-BS256-ECB       : sm4-bs256-ecb
 sm-scheme 104 10        : SM4-BS256-CTR       : sm4-bs256-ctr
 sm-scheme 104 11        : SM4-BS256-GCM       : sm4-bs256-gcm
+sm-scheme 104 12        : SM4-BS512-ECB       : sm4-bs512-ecb
+sm-scheme 104 13        : SM4-BS512-CTR       : sm4-bs512-ctr
+sm-scheme 104 14        : SM4-BS512-GCM       : sm4-bs512-gcm
 
 # There is no OID that just denotes "HMAC" oddly enough...
 

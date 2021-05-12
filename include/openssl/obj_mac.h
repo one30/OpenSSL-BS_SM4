@@ -4787,6 +4787,21 @@
 #define NID_sm4_bs256_gcm               1197
 #define OBJ_sm4_bs256_gcm               OBJ_sm_scheme,104L,11L
 
+#define SN_sm4_bs512_ecb                "SM4-BS512-ECB"
+#define LN_sm4_bs512_ecb                "sm4-bs512-ecb"
+#define NID_sm4_bs512_ecb               1199
+#define OBJ_sm4_bs512_ecb               OBJ_sm_scheme,104L,12L
+
+#define SN_sm4_bs512_ctr                "SM4-BS512-CTR"
+#define LN_sm4_bs512_ctr                "sm4-bs512-ctr"
+#define NID_sm4_bs512_ctr               1200
+#define OBJ_sm4_bs512_ctr               OBJ_sm_scheme,104L,13L
+
+#define SN_sm4_bs512_gcm                "SM4-BS512-GCM"
+#define LN_sm4_bs512_gcm                "sm4-bs512-gcm"
+#define NID_sm4_bs512_gcm               1201
+#define OBJ_sm4_bs512_gcm               OBJ_sm_scheme,104L,14L
+
 #define SN_hmac         "HMAC"
 #define LN_hmac         "hmac"
 #define NID_hmac                855

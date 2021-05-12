@@ -10,7 +10,7 @@
  */
 
 /* Serialized OID's */
-static const unsigned char so[7794] = {
+static const unsigned char so[7818] = {
     0x2A,0x86,0x48,0x86,0xF7,0x0D,                 /* [    0] OBJ_rsadsi */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,            /* [    6] OBJ_pkcs */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x02,0x02,       /* [   13] OBJ_md2 */
@@ -1080,9 +1080,12 @@ static const unsigned char so[7794] = {
     0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x0A,       /* [ 7769] OBJ_sm4_bs256_ctr */
     0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x0B,       /* [ 7777] OBJ_sm4_bs256_gcm */
     0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x08,       /* [ 7785] OBJ_sm4_gcm */
+    0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x0C,       /* [ 7793] OBJ_sm4_bs512_ecb */
+    0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x0D,       /* [ 7801] OBJ_sm4_bs512_ctr */
+    0x2A,0x81,0x1C,0xCF,0x55,0x01,0x68,0x0E,       /* [ 7809] OBJ_sm4_bs512_gcm */
 };
 
-#define NUM_NID 1199
+#define NUM_NID 1202
 static const ASN1_OBJECT nid_objs[NUM_NID] = {
     {"UNDEF", "undefined", NID_undef},
     {"rsadsi", "RSA Data Security, Inc.", NID_rsadsi, 6, &so[0]},
@@ -2283,9 +2286,12 @@ static const ASN1_OBJECT nid_objs[NUM_NID] = {
     {"SM4-BS256-CTR", "sm4-bs256-ctr", NID_sm4_bs256_ctr, 8, &so[7769]},
     {"SM4-BS256-GCM", "sm4-bs256-gcm", NID_sm4_bs256_gcm, 8, &so[7777]},
     {"SM4-GCM", "sm4-gcm", NID_sm4_gcm, 8, &so[7785]},
+    {"SM4-BS512-ECB", "sm4-bs512-ecb", NID_sm4_bs512_ecb, 8, &so[7793]},
+    {"SM4-BS512-CTR", "sm4-bs512-ctr", NID_sm4_bs512_ctr, 8, &so[7801]},
+    {"SM4-BS512-GCM", "sm4-bs512-gcm", NID_sm4_bs512_gcm, 8, &so[7809]},
 };
 
-#define NUM_SN 1190
+#define NUM_SN 1193
 static const unsigned int sn_objs[NUM_SN] = {
      364,    /* "AD_DVCS" */
      419,    /* "AES-128-CBC" */
@@ -2555,6 +2561,9 @@ static const unsigned int sn_objs[NUM_SN] = {
     1196,    /* "SM4-BS256-CTR" */
     1195,    /* "SM4-BS256-ECB" */
     1197,    /* "SM4-BS256-GCM" */
+    1200,    /* "SM4-BS512-CTR" */
+    1199,    /* "SM4-BS512-ECB" */
+    1201,    /* "SM4-BS512-GCM" */
     1134,    /* "SM4-CBC" */
     1137,    /* "SM4-CFB" */
     1136,    /* "SM4-CFB1" */
@@ -3479,7 +3488,7 @@ static const unsigned int sn_objs[NUM_SN] = {
     1093,    /* "x509ExtAdmission" */
 };
 
-#define NUM_LN 1190
+#define NUM_LN 1193
 static const unsigned int ln_objs[NUM_LN] = {
      363,    /* "AD Time Stamping" */
      405,    /* "ANSI X9.62" */
@@ -4617,6 +4626,9 @@ static const unsigned int ln_objs[NUM_LN] = {
     1196,    /* "sm4-bs256-ctr" */
     1195,    /* "sm4-bs256-ecb" */
     1197,    /* "sm4-bs256-gcm" */
+    1200,    /* "sm4-bs512-ctr" */
+    1199,    /* "sm4-bs512-ecb" */
+    1201,    /* "sm4-bs512-gcm" */
     1134,    /* "sm4-cbc" */
     1137,    /* "sm4-cfb" */
     1136,    /* "sm4-cfb1" */
@@ -4673,7 +4685,7 @@ static const unsigned int ln_objs[NUM_LN] = {
      125,    /* "zlib compression" */
 };
 
-#define NUM_OBJ 1075
+#define NUM_OBJ 1078
 static const unsigned int obj_objs[NUM_OBJ] = {
        0,    /* OBJ_undef                        0 */
      181,    /* OBJ_iso                          1 */
@@ -5144,6 +5156,9 @@ static const unsigned int obj_objs[NUM_OBJ] = {
     1195,    /* OBJ_sm4_bs256_ecb                1 2 156 10197 1 104 9 */
     1196,    /* OBJ_sm4_bs256_ctr                1 2 156 10197 1 104 10 */
     1197,    /* OBJ_sm4_bs256_gcm                1 2 156 10197 1 104 11 */
+    1199,    /* OBJ_sm4_bs512_ecb                1 2 156 10197 1 104 12 */
+    1200,    /* OBJ_sm4_bs512_ctr                1 2 156 10197 1 104 13 */
+    1201,    /* OBJ_sm4_bs512_gcm                1 2 156 10197 1 104 14 */
     1172,    /* OBJ_sm2                          1 2 156 10197 1 301 */
     1143,    /* OBJ_sm3                          1 2 156 10197 1 401 */
     1144,    /* OBJ_sm3WithRSAEncryption         1 2 156 10197 1 504 */
