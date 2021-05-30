@@ -564,7 +564,8 @@ void gcm_ghash_4bit(u64 Xi[2], const u128 Htable[16], const u8 *inp,
  * effect. In other words idea is to hash data while it's still in L1 cache
  * after encryption pass...
  */
-#  define GHASH_CHUNK       (3*1024)
+// #  define GHASH_CHUNK       (3*1024)
+#  define GHASH_CHUNK       (9*1024)
 # endif
 
 #else                           /* TABLE_BITS */

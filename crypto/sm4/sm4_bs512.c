@@ -3,7 +3,7 @@
  * @Version      : 
  * @Autor        : one30: one30@m.scnu.edu.cn(email)
  * @Date         : 2021-05-11 19:10:27
- * @LastEditTime : 2021-05-12 17:58:11
+ * @LastEditTime : 2021-05-27 18:58:13
  * @FilePath     : /crypto/sm4/sm4_bs512.c
  */
 
@@ -201,6 +201,27 @@ int SM4_BS512_set_key(const uint8_t *key, SM4_BS512_KEY *ks){
             ks->bs512_rk[i][j] = _mm512_loadu_si512((__m512i*)(BS_RK[i][j]));
         }
     }
+
+/*     uint64_t BS_RK[8];
+    for(int i = 0; i<32; i++)
+    {
+        //printf("rkey[%d]=%08x\n",i,rkey[i]);
+        uint64_t t = 0x1;
+        for(int j = 0; j < 32; j++)
+        {
+            for(int k = 0; k < 8; k++)
+            {
+                if( ks->rk[i] & t)
+                    BS_RK[k] = ~0;
+                else
+                {
+                    BS_RK[k] = 0;
+                }
+            }
+            // ks->bs512_rk[i][31-j] = _mm512_loadu_si512((__m512i_u*)BS_RK);
+            t = t << 1;
+        }
+    } */
 
     return 1;
 }
@@ -687,7 +708,7 @@ void sm4_bs512_ctr_encrypt(const uint8_t * inputb, uint8_t * outputb, int size, 
     __m128i vindex_swap = _mm_setr_epi8(
 		7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8
 	);
-
+    // printf("i'm here!\t");
     memset(outputb,0,size);
     memset(ctr,0,sizeof(ctr));
     // t = _mm_load_si128((__m128i *)iv);

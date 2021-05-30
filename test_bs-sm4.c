@@ -16,6 +16,8 @@
 static const EVP_CIPHER *(*EVP_sm4_ecb)()=EVP_aes_128_ecb;
 #endif
 
+// #define OPENSSL_NO_SM4
+
 typedef struct {
     const unsigned char *in_data;
     size_t in_data_len;
@@ -213,6 +215,8 @@ void test_encrypt_with_sm4bs256_gcm(){
     EVP_CIPHER_CTX_free(ctx);
 }
 
+
+#ifndef OPENSSL_NO_SM4
 void test_encrypt_with_sm4bs512_gcm(){
     #define SM4_GCM_TESTS_BYTES 48
     //tect vector from GB/T 0042--2015 三元对等密码安全协议测试规范
@@ -269,6 +273,7 @@ void test_encrypt_with_sm4bs512_gcm(){
     BIO_dump_fp(stdout, outbuf, 16);
     EVP_CIPHER_CTX_free(ctx);
 }
+#endif
 
 /* test_bitsice_sm4_gcm(){
     #define SM4_GCM_TESTS_BYTES 48
@@ -403,10 +408,8 @@ void main()
         test_encrypt_with_cipher(&tc_2, EVP_sm4_bs256_ctr());
     }
 
-#if defined(OPENSSL_NO_BS512_SM4)
-    have_sm4_bs512 = 0;
-#endif
-    if (have_sm4_bs512)
+#ifndef OPENSSL_NO_SM4
+    if (1)
     {
         printf("[3]\n");
         printf("Debug: EVP_sm4_bs512_ecb() test\n");
@@ -416,9 +419,7 @@ void main()
         test_encrypt_with_cipher(&tc, EVP_sm4_bs512_ctr());
         test_encrypt_with_cipher(&tc_2, EVP_sm4_bs512_ctr());
     }
-
-    // printf("Debug: bitsice_sm4_gcm() test\n");
-    // test_bitsice_sm4_gcm();
+#endif
 
     printf("Debug: EVP_sm4_gcm() test\n");
     test_encrypt_with_gcm();
@@ -426,7 +427,9 @@ void main()
     printf("\nDebug: EVP_sm4-bs256_gcm() test\n");
     test_encrypt_with_sm4bs256_gcm();
 
-    printf("\nDebug: EVP_sm4-bs512_gcm() test\n");
+#ifndef OPENSSL_NO_SM4
+    printf("\n\tDebug: EVP_sm4-bs512_gcm() test\n");
     test_encrypt_with_sm4bs512_gcm();
+#endif
 
 }
