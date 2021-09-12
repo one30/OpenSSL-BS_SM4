@@ -4598,3 +4598,6 @@ EVP_sm4_gcm                             4551	1_1_1i	EXIST::FUNCTION:SM4
 EVP_sm4_bs512_ecb                       4552	1_1_1i	EXIST::FUNCTION:
 EVP_sm4_bs512_ctr                       4553	1_1_1i	EXIST::FUNCTION:
 EVP_sm4_bs512_gcm                       4554	1_1_1i	EXIST::FUNCTION:
+EVP_sm4_avx2_ctr                        4555	1_1_1i	EXIST::FUNCTION:
+EVP_sm4_avx2_gcm                        4556	1_1_1i	EXIST::FUNCTION:
+EVP_sm4_avx2_ecb                        4557	1_1_1i	EXIST::FUNCTION:

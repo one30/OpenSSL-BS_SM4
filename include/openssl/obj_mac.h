@@ -4802,6 +4802,21 @@
 #define NID_sm4_bs512_gcm               1201
 #define OBJ_sm4_bs512_gcm               OBJ_sm_scheme,104L,14L
 
+#define SN_sm4_avx2_ecb         "SM4-AVX2-ECB"
+#define LN_sm4_avx2_ecb         "sm4-avx2-ecb"
+#define NID_sm4_avx2_ecb                1202
+#define OBJ_sm4_avx2_ecb                OBJ_sm_scheme,104L,15L
+
+#define SN_sm4_avx2_ctr         "SM4-AVX2-CTR"
+#define LN_sm4_avx2_ctr         "sm4-avx2-ctr"
+#define NID_sm4_avx2_ctr                1203
+#define OBJ_sm4_avx2_ctr                OBJ_sm_scheme,104L,16L
+
+#define SN_sm4_avx2_gcm         "SM4-AVX2-GCM"
+#define LN_sm4_avx2_gcm         "sm4-avx2-gcm"
+#define NID_sm4_avx2_gcm                1204
+#define OBJ_sm4_avx2_gcm                OBJ_sm_scheme,104L,17L
+
 #define SN_hmac         "HMAC"
 #define LN_hmac         "hmac"
 #define NID_hmac                855

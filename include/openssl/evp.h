@@ -952,6 +952,12 @@ const EVP_CIPHER *EVP_sm4_bs512_ctr(void);
 const EVP_CIPHER *EVP_sm4_bs512_gcm(void);
 # endif
 
+# ifndef OPENSSL_NO_AVX2_SM4
+const EVP_CIPHER *EVP_sm4_avx2_ecb(void);
+const EVP_CIPHER *EVP_sm4_avx2_ctr(void);
+const EVP_CIPHER *EVP_sm4_avx2_gcm(void);
+# endif
+
 # if OPENSSL_API_COMPAT < 0x10100000L
 #  define OPENSSL_add_all_algorithms_conf() \
     OPENSSL_init_crypto(OPENSSL_INIT_ADD_ALL_CIPHERS \

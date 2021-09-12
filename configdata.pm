@@ -14,12 +14,12 @@ our %config = (
   AR => "ar",
   ARFLAGS => [ "r" ],
   CC => "gcc",
-  CFLAGS => [ "-Wall -O3", "-mavx2", "-mavx512f", "-mavx512bw" ],
+  CFLAGS => [ "-Wall -O3", "-g", "-mavx2", "-mavx512f", "-mavx512bw" ],
   CPPDEFINES => [  ],
   CPPFLAGS => [  ],
   CPPINCLUDES => [  ],
   CXX => "g++",
-  CXXFLAGS => [ "-Wall -O3", "-mavx2", "-mavx512f", "-mavx512bw" ],
+  CXXFLAGS => [ "-Wall -O3", "-g", "-mavx2", "-mavx512f", "-mavx512bw" ],
   HASHBANGPERL => "/usr/bin/env perl",
   LDFLAGS => [  ],
   LDLIBS => [  ],
@@ -61,11 +61,11 @@ our %config = (
   openssl_sys_defines => [  ],
   openssl_thread_defines => [ "OPENSSL_THREADS" ],
   openssldir => "",
-  options => "--prefix=/home/ubuntu/test/openssl-1.1.1i/out -mavx2 -mavx512f -mavx512bw no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-fuzz-afl no-fuzz-libfuzzer no-heartbeats no-md2 no-msan no-rc5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-ubsan no-unit-test no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
+  options => "--prefix=/home/ubuntu/test/openssl-1.1.1i/out -g -mavx2 -mavx512f -mavx512bw no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-fuzz-afl no-fuzz-libfuzzer no-heartbeats no-md2 no-msan no-rc5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-ubsan no-unit-test no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
   perl_archname => "x86_64-linux-gnu-thread-multi",
   perl_cmd => "/usr/bin/perl",
   perl_version => "5.30.0",
-  perlargv => [ "linux-x86_64", "--prefix=/home/ubuntu/test/openssl-1.1.1i/out", "-mavx2", "-mavx512f", "-mavx512bw" ],
+  perlargv => [ "linux-x86_64", "--prefix=/home/ubuntu/test/openssl-1.1.1i/out", "-g", "-mavx2", "-mavx512f", "-mavx512bw" ],
   perlenv => {
       "AR" => undef,
       "BUILDFILE" => undef,
@@ -2437,6 +2437,7 @@ our %unified_info = (
                             "crypto/evp/e_rc5.o",
                             "crypto/evp/e_seed.o",
                             "crypto/evp/e_sm4.o",
+                            "crypto/evp/e_sm4_avx2.o",
                             "crypto/evp/e_sm4_bs256.o",
                             "crypto/evp/e_sm4_bs512.o",
                             "crypto/evp/e_xcbc_d.o",
@@ -2950,6 +2951,7 @@ our %unified_info = (
                     "deps" =>
                         [
                             "crypto/sm4/sm4.o",
+                            "crypto/sm4/sm4_avx2.o",
                             "crypto/sm4/sm4_bs256.o",
                             "crypto/sm4/sm4_bs512.o",
                         ],
@@ -3217,6 +3219,8 @@ our %unified_info = (
                 {
                     "deps" =>
                         [
+                            "ssl/packet.o",
+                            "ssl/tls13_enc.o",
                             "ssl/bio_ssl.o",
                             "ssl/d1_lib.o",
                             "ssl/d1_msg.o",
@@ -3246,8 +3250,6 @@ our %unified_info = (
                             "ssl/t1_trce.o",
                             "ssl/tls13_enc.o",
                             "ssl/tls_srp.o",
-                            "ssl/packet.o",
-                            "ssl/tls13_enc.o",
                         ],
                     "products" =>
                         {
@@ -6862,6 +6864,11 @@ our %unified_info = (
                     "crypto",
                     "crypto/modes",
                 ],
+            "crypto/evp/e_sm4_avx2.o" =>
+                [
+                    ".",
+                    "include",
+                ],
             "crypto/evp/e_sm4_bs256.o" =>
                 [
                     ".",
@@ -7965,6 +7972,11 @@ our %unified_info = (
                     "include",
                 ],
             "crypto/sm4/sm4.o" =>
+                [
+                    ".",
+                    "include",
+                ],
+            "crypto/sm4/sm4_avx2.o" =>
                 [
                     ".",
                     "include",
@@ -11629,6 +11641,10 @@ our %unified_info = (
                 [
                     "crypto/evp/e_sm4.c",
                 ],
+            "crypto/evp/e_sm4_avx2.o" =>
+                [
+                    "crypto/evp/e_sm4_avx2.c",
+                ],
             "crypto/evp/e_sm4_bs256.o" =>
                 [
                     "crypto/evp/e_sm4_bs256.c",
@@ -12428,6 +12444,10 @@ our %unified_info = (
             "crypto/sm4/sm4.o" =>
                 [
                     "crypto/sm4/sm4.c",
+                ],
+            "crypto/sm4/sm4_avx2.o" =>
+                [
+                    "crypto/sm4/sm4_avx2.c",
                 ],
             "crypto/sm4/sm4_bs256.o" =>
                 [
@@ -13366,6 +13386,7 @@ our %unified_info = (
                     "crypto/evp/e_rc5.o",
                     "crypto/evp/e_seed.o",
                     "crypto/evp/e_sm4.o",
+                    "crypto/evp/e_sm4_avx2.o",
                     "crypto/evp/e_sm4_bs256.o",
                     "crypto/evp/e_sm4_bs512.o",
                     "crypto/evp/e_xcbc_d.o",
@@ -13566,6 +13587,7 @@ our %unified_info = (
                     "crypto/sm3/m_sm3.o",
                     "crypto/sm3/sm3.o",
                     "crypto/sm4/sm4.o",
+                    "crypto/sm4/sm4_avx2.o",
                     "crypto/sm4/sm4_bs256.o",
                     "crypto/sm4/sm4_bs512.o",
                     "crypto/srp/srp_lib.o",

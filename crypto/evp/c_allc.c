@@ -102,6 +102,12 @@ void openssl_add_all_ciphers_int(void)
     EVP_add_cipher(EVP_sm4_bs512_gcm());
 #endif
 
+#ifndef OPENSSL_NO_AVX2_SM4
+    EVP_add_cipher(EVP_sm4_avx2_ecb());
+    EVP_add_cipher(EVP_sm4_avx2_ctr());
+    EVP_add_cipher(EVP_sm4_avx2_gcm());
+#endif
+
 #ifndef OPENSSL_NO_RC2
     EVP_add_cipher(EVP_rc2_ecb());
     EVP_add_cipher(EVP_rc2_cfb());

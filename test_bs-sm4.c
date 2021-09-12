@@ -137,6 +137,7 @@ void test_encrypt_with_gcm(){
     ctx = EVP_CIPHER_CTX_new();
     /* Set cipher type and mode */
     EVP_EncryptInit_ex(ctx, EVP_sm4_gcm(), NULL, NULL, NULL);
+    EVP_EncryptInit_ex(ctx, EVP_sm4_gcm(), NULL, NULL, NULL);
     /* Set IV length if default 96 bits is not appropriate */
     EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_AEAD_SET_IVLEN, sizeof(iv_vector), NULL);
     /* Initialise key and IV */
@@ -422,6 +423,7 @@ void main()
 #endif
 
     printf("Debug: EVP_sm4_gcm() test\n");
+    test_encrypt_with_gcm();
     test_encrypt_with_gcm();
 
     printf("\nDebug: EVP_sm4-bs256_gcm() test\n");

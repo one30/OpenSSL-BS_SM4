@@ -1199,3 +1199,6 @@ sm4_gcm		1198
 sm4_bs512_ecb		1199
 sm4_bs512_ctr		1200
 sm4_bs512_gcm		1201
+sm4_avx2_ecb		1202
+sm4_avx2_ctr		1203
+sm4_avx2_gcm		1204

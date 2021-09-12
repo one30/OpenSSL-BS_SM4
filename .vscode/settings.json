@@ -18,7 +18,9 @@
         "ranges": "cpp",
         "bit": "cpp",
         "list": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "e_os2.h": "c",
+        "sm4_avx2.h": "c"
     },
     "git.ignoreLimitWarning": true
 }
